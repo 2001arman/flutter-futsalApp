@@ -1,32 +1,43 @@
 import 'package:demo_futsalapp/constanst.dart';
+import 'package:demo_futsalapp/cubit/page_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class NavbarItem extends StatelessWidget {
-  const NavbarItem({Key? key, required this.imageUrl, this.isActive = false})
+  const NavbarItem({Key? key, required this.imageUrl, required this.index})
       : super(key: key);
 
   final String imageUrl;
-  final bool isActive;
+  final int index;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Container(
-          width: 24,
-          height: 24,
-          child: Image(
-            image: AssetImage(imageUrl),
-            color: isActive ? kGreenDarkColor : kBlackColor,
+    return GestureDetector(
+      onTap: () {
+        context.read<PageCubit>().setPage(index);
+      },
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Container(
+            width: 24,
+            height: 24,
+            child: Image(
+              image: AssetImage(imageUrl),
+              color: context.watch<PageCubit>().state == index
+                  ? kGreenDarkColor
+                  : kBlackColor,
+            ),
           ),
-        ),
-        Container(
-          width: 24,
-          height: 2,
-          color: isActive ? kGreenDarkColor : Colors.transparent,
-        )
-      ],
+          Container(
+            width: 24,
+            height: 2,
+            color: context.read<PageCubit>().state == index
+                ? kGreenDarkColor
+                : Colors.transparent,
+          )
+        ],
+      ),
     );
   }
 }

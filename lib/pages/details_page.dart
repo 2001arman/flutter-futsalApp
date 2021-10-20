@@ -119,7 +119,7 @@ class DetailsPage extends StatelessWidget {
               width: double.infinity,
               height: 53,
               margin: EdgeInsets.only(top: defaultMargin),
-              padding: EdgeInsets.symmetric(vertical: 9, horizontal: 16),
+              padding: EdgeInsets.symmetric(vertical: 6, horizontal: 16),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 color: Colors.white,

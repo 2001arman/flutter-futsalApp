@@ -22,15 +22,16 @@ class FieldCard extends StatelessWidget {
         height: 170,
         margin: EdgeInsets.only(right: 16),
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                blurRadius: 10,
-                offset: Offset(0, 9),
-                color: Colors.black.withOpacity(0.1),
-              ),
-            ]),
+          borderRadius: BorderRadius.circular(10),
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              blurRadius: 10,
+              offset: Offset(0, 9),
+              color: Colors.black.withOpacity(0.1),
+            ),
+          ],
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -47,7 +48,7 @@ class FieldCard extends StatelessWidget {
             ),
             Expanded(
               child: Container(
-                padding: EdgeInsets.all(8),
+                padding: EdgeInsets.symmetric(vertical: 5, horizontal: 8),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

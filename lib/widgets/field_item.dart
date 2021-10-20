@@ -1,19 +1,22 @@
 import 'package:demo_futsalapp/constanst.dart';
+import 'package:demo_futsalapp/cubit/field_cubit.dart';
+import 'package:demo_futsalapp/pages/field_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FieldItem extends StatelessWidget {
-  const FieldItem(
-      {Key? key,
-      required this.id,
-      this.isAvaible = true,
-      this.isSelected = false})
-      : super(key: key);
+  const FieldItem({
+    Key? key,
+    required this.id,
+    this.isAvaible = true,
+  }) : super(key: key);
 
   final int id;
-  final bool isAvaible, isSelected;
+  final bool isAvaible;
 
   @override
   Widget build(BuildContext context) {
+    bool isSelected = context.watch<FieldCubit>().state == id;
     gambarLapangan() {
       if (isAvaible) {
         if (isSelected) {
@@ -27,12 +30,19 @@ class FieldItem extends StatelessWidget {
 
     return Column(
       children: [
-        Container(
-          width: 154,
-          height: 246,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage(gambarLapangan()),
+        GestureDetector(
+          onTap: () {
+            if (isAvaible) {
+              context.read<FieldCubit>().pilihLapangan(id);
+            }
+          },
+          child: Container(
+            width: 154,
+            height: 246,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(gambarLapangan()),
+              ),
             ),
           ),
         ),

@@ -9,23 +9,23 @@ Color kLightColor = Color(0xFF979797);
 Color kGreyColor = Color(0xFFAFAFAF);
 Color kWhiteColor = Color(0xFFF3F3F3);
 
-TextStyle blackTextStyle = GoogleFonts.inter(
+TextStyle blackTextStyle = GoogleFonts.poppins(
   color: kBlackColor,
 );
 
-TextStyle lightTextStyle = GoogleFonts.inter(
+TextStyle lightTextStyle = GoogleFonts.poppins(
   color: kLightColor,
 );
 
-TextStyle whiteTextStyle = GoogleFonts.inter(
+TextStyle whiteTextStyle = GoogleFonts.poppins(
   color: Color(0xFFFFFFFF),
 );
 
-TextStyle greyTextStyle = GoogleFonts.inter(
+TextStyle greyTextStyle = GoogleFonts.poppins(
   color: kLightColor,
 );
 
-TextStyle greenTextStyle = GoogleFonts.inter(
+TextStyle greenTextStyle = GoogleFonts.poppins(
   color: kGreenDarkColor,
 );
 

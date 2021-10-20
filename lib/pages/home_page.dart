@@ -1,7 +1,6 @@
 import 'package:demo_futsalapp/constanst.dart';
 import 'package:demo_futsalapp/widgets/container_icon.dart';
 import 'package:demo_futsalapp/widgets/field_card.dart';
-import 'package:demo_futsalapp/widgets/navbar_item.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -200,59 +199,19 @@ class HomePage extends StatelessWidget {
       );
     }
 
-    Widget myBottomNavbar() {
-      return Container(
-        width: double.infinity,
-        height: 45,
-        margin: EdgeInsets.all(defaultMargin),
-        padding: EdgeInsets.only(left: 28, right: 28, top: 10),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              offset: Offset(0, 8),
-              blurRadius: 50,
-              color: Colors.black.withOpacity(0.15),
-            )
-          ],
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            NavbarItem(
-              imageUrl: "assets/icon_home.png",
-              isActive: true,
-            ),
-            NavbarItem(imageUrl: "assets/icon_document.png"),
-            NavbarItem(imageUrl: "assets/icon_bookmark.png"),
-            NavbarItem(imageUrl: "assets/icon_setting.png"),
-          ],
-        ),
-      );
-    }
-
     return Scaffold(
       backgroundColor: Color(0xFFFAFAFA),
       body: SafeArea(
-        child: Stack(
-          children: [
-            SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  topBar(),
-                  searchSection(),
-                  contentSection(),
-                  SizedBox(height: 60),
-                ],
-              ),
-            ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: myBottomNavbar(),
-            ),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              topBar(),
+              searchSection(),
+              contentSection(),
+              SizedBox(height: 60),
+            ],
+          ),
         ),
       ),
     );

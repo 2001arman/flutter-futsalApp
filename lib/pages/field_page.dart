@@ -1,9 +1,10 @@
 import 'package:demo_futsalapp/constanst.dart';
+import 'package:demo_futsalapp/cubit/field_cubit.dart';
 import 'package:demo_futsalapp/widgets/container_icon.dart';
 import 'package:demo_futsalapp/widgets/field_item.dart';
 import 'package:demo_futsalapp/widgets/my_button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FieldPage extends StatelessWidget {
   const FieldPage({Key? key}) : super(key: key);
@@ -16,7 +17,12 @@ class FieldPage extends StatelessWidget {
         width: double.infinity,
         child: Row(
           children: [
-            ContainerIcon(imageUrl: "assets/icon_arrow.png"),
+            GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: ContainerIcon(imageUrl: "assets/icon_arrow.png"),
+            ),
             Spacer(),
             Text(
               "Pilih Lapangan",
@@ -112,7 +118,7 @@ class FieldPage extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                FieldItem(id: 3, isSelected: true),
+                FieldItem(id: 3),
                 FieldItem(id: 4, isAvaible: false),
               ],
             ),
@@ -122,39 +128,45 @@ class FieldPage extends StatelessWidget {
     }
 
     Widget bottomSection() {
-      return Container(
-        margin: EdgeInsets.symmetric(horizontal: defaultMargin, vertical: 16),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Column(
+      return BlocBuilder<FieldCubit, int>(
+        builder: (context, state) {
+          int lapangan = context.read<FieldCubit>().state;
+          return Container(
+            margin:
+                EdgeInsets.symmetric(horizontal: defaultMargin, vertical: 16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Text(
-                  "Lapangan dipilih",
-                  style: lightTextStyle.copyWith(
-                    fontSize: 12,
-                    fontWeight: light,
-                  ),
+                Column(
+                  children: [
+                    Text(
+                      "Lapangan dipilih",
+                      style: lightTextStyle.copyWith(
+                        fontSize: 12,
+                        fontWeight: light,
+                      ),
+                    ),
+                    SizedBox(height: 8),
+                    Text(
+                      "Lapangan $lapangan",
+                      style: blackTextStyle.copyWith(
+                        fontSize: 14,
+                        fontWeight: semiBold,
+                      ),
+                    ),
+                  ],
                 ),
-                SizedBox(height: 8),
-                Text(
-                  "Lapangan 3",
-                  style: blackTextStyle.copyWith(
-                    fontSize: 14,
-                    fontWeight: semiBold,
-                  ),
+                MyButton(
+                  onTap: () {},
+                  width: 154,
+                  height: 45,
+                  margin: EdgeInsets.zero,
+                  text: "Lanjutkan",
                 ),
               ],
             ),
-            MyButton(
-              onTap: () {},
-              width: 154,
-              height: 45,
-              margin: EdgeInsets.zero,
-              text: "Lanjutkan",
-            ),
-          ],
-        ),
+          );
+        },
       );
     }
 
