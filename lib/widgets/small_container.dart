@@ -19,7 +19,6 @@ class SmallContainer extends StatelessWidget {
       width: 73,
       height: 36,
       margin: EdgeInsets.only(right: 16),
-      padding: EdgeInsets.symmetric(vertical: 12),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         color: isActive ? kBlackColor : kBackgroundColor,

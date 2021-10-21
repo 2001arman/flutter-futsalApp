@@ -1,5 +1,6 @@
 import 'package:demo_futsalapp/cubit/field_cubit.dart';
 import 'package:demo_futsalapp/cubit/page_cubit.dart';
+import 'package:demo_futsalapp/pages/checkout_page.dart';
 import 'package:demo_futsalapp/pages/details_page.dart';
 import 'package:demo_futsalapp/pages/field_page.dart';
 import 'package:demo_futsalapp/pages/login_page.dart';
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
           'main-page': (context) => MainPage(),
           'details-page': (context) => DetailsPage(),
           'field-page': (context) => FieldPage(),
+          'checkout-page': (context) => CheckoutPage(),
         },
         // home: HomePage(),
       ),

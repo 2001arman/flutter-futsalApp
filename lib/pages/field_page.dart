@@ -157,7 +157,9 @@ class FieldPage extends StatelessWidget {
                   ],
                 ),
                 MyButton(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pushNamed(context, 'checkout-page');
+                  },
                   width: 154,
                   height: 45,
                   margin: EdgeInsets.zero,
