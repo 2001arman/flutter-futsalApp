@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "514170153794",
+    "project_id": "futsalapp-1c258",
+    "storage_bucket": "futsalapp-1c258.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:514170153794:android:d04b94cbbdcac6b86b36db",
+        "android_client_info": {
+          "package_name": "com.arman.demo_futsalapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "514170153794-9t4lfbpceesk5ipm88gvjm4ni5c3p2ig.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDcWlRGpycb6xS0TRfr71fx8-R0MoCS824"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "514170153794-9t4lfbpceesk5ipm88gvjm4ni5c3p2ig.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

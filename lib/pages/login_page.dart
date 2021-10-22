@@ -4,7 +4,10 @@ import 'package:demo_futsalapp/widgets/my_button.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatelessWidget {
-  const LoginPage({Key? key}) : super(key: key);
+  LoginPage({Key? key}) : super(key: key);
+
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -31,11 +34,13 @@ class LoginPage extends StatelessWidget {
             CustomTextFormField(
               title: "Email",
               hintText: "Email anda",
+              controller: emailController,
             ),
             CustomTextFormField(
               title: "Kata Sandi",
               hintText: "Kata sandi anda",
               isObscure: true,
+              controller: passwordController,
             ),
             MyButton(
               onTap: () {

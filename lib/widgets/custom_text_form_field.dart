@@ -2,15 +2,17 @@ import 'package:demo_futsalapp/constanst.dart';
 import 'package:flutter/material.dart';
 
 class CustomTextFormField extends StatelessWidget {
-  const CustomTextFormField(
-      {Key? key,
-      required this.title,
-      required this.hintText,
-      this.isObscure = false})
-      : super(key: key);
+  const CustomTextFormField({
+    Key? key,
+    required this.title,
+    required this.hintText,
+    this.isObscure = false,
+    required this.controller,
+  }) : super(key: key);
 
   final String title, hintText;
   final bool isObscure;
+  final TextEditingController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +30,7 @@ class CustomTextFormField extends StatelessWidget {
           ),
           SizedBox(height: 10),
           TextFormField(
+            controller: controller,
             cursorColor: kBlackColor,
             obscureText: isObscure,
             decoration: InputDecoration(

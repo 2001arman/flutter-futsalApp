@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:demo_futsalapp/constanst.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -16,7 +17,13 @@ class _SplashScreenState extends State<SplashScreen> {
     Timer(
       Duration(seconds: 3),
       () {
-        Navigator.pushReplacementNamed(context, 'login-page');
+        User? user = FirebaseAuth.instance.currentUser;
+        if (user == null) {
+          Navigator.pushReplacementNamed(context, 'login-page');
+        } else {
+          Navigator.pushNamedAndRemoveUntil(
+              context, 'main-page', (route) => false);
+        }
       },
     );
     super.initState();

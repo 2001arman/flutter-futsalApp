@@ -181,7 +181,9 @@ class CheckoutPage extends StatelessWidget {
             detailsSection(),
             saldo(),
             MyButton(
-              onTap: () {},
+              onTap: () {
+                Navigator.pushNamed(context, 'success-page');
+              },
               margin: EdgeInsets.symmetric(horizontal: defaultMargin),
               width: double.infinity,
               height: 55,

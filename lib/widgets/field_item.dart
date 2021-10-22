@@ -1,6 +1,5 @@
 import 'package:demo_futsalapp/constanst.dart';
 import 'package:demo_futsalapp/cubit/field_cubit.dart';
-import 'package:demo_futsalapp/pages/field_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
