@@ -1,71 +1,94 @@
 import 'package:demo_futsalapp/constanst.dart';
+import 'package:demo_futsalapp/cubit/auth_cubit.dart';
+import 'package:demo_futsalapp/cubit/lapangan_cubit.dart';
+import 'package:demo_futsalapp/models/lapangan_model.dart';
 import 'package:demo_futsalapp/widgets/container_icon.dart';
 import 'package:demo_futsalapp/widgets/field_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
+
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    context.read<LapanganCubit>().fetchLapangan();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     Widget topBar() {
-      return Container(
-        margin: EdgeInsets.only(
-          left: defaultMargin,
-          right: defaultMargin,
-          top: defaultMargin,
-        ),
-        width: double.infinity,
-        child: Row(
-          children: [
-            Container(
-              width: 34,
-              height: 34,
-              margin: EdgeInsets.only(right: 8),
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage("assets/image_profile.png"),
-                ),
+      return BlocBuilder<AuthCubit, AuthState>(
+        builder: (context, state) {
+          if (state is AuthSuccess) {
+            return Container(
+              margin: EdgeInsets.only(
+                left: defaultMargin,
+                right: defaultMargin,
+                top: defaultMargin,
               ),
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Hello, Ananda Faris",
-                  style: blackTextStyle.copyWith(
-                    fontSize: 12,
-                    fontWeight: semiBold,
+              width: double.infinity,
+              child: Row(
+                children: [
+                  Container(
+                    width: 34,
+                    height: 34,
+                    margin: EdgeInsets.only(right: 8),
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage("assets/image_profile.png"),
+                      ),
+                    ),
                   ),
-                ),
-                SizedBox(height: 5),
-                Row(
-                  children: [
-                    Container(
-                      width: 15,
-                      height: 15,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage("assets/icon_location.png"),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Hello, ${state.user.nama}",
+                        style: blackTextStyle.copyWith(
+                          fontSize: 12,
+                          fontWeight: semiBold,
                         ),
                       ),
-                    ),
-                    SizedBox(width: 4),
-                    Text(
-                      "West Street, Samarinda",
-                      style: lightTextStyle.copyWith(
-                        fontSize: 12,
-                        fontWeight: reguler,
-                      ),
-                    ),
-                  ],
-                )
-              ],
-            ),
-            Spacer(),
-            ContainerIcon(imageUrl: "assets/icon_notification.png"),
-          ],
-        ),
+                      SizedBox(height: 5),
+                      Row(
+                        children: [
+                          Container(
+                            width: 15,
+                            height: 15,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: AssetImage("assets/icon_location.png"),
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 4),
+                          Text(
+                            "West Street, Samarinda",
+                            style: lightTextStyle.copyWith(
+                              fontSize: 12,
+                              fontWeight: reguler,
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                  Spacer(),
+                  ContainerIcon(imageUrl: "assets/icon_notification.png"),
+                ],
+              ),
+            );
+          } else {
+            return SizedBox();
+          }
+        },
       );
     }
 
@@ -117,7 +140,7 @@ class HomePage extends StatelessWidget {
       );
     }
 
-    Widget contentSection() {
+    Widget contentSection(List<LapanganModel> dataLapangan) {
       return Container(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -138,24 +161,9 @@ class HomePage extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               padding: EdgeInsets.only(bottom: 24),
               child: Row(
-                children: [
-                  SizedBox(width: defaultMargin),
-                  FieldCard(
-                    imageUrl: "assets/image_futsal1.png",
-                    name: "Centro Futsal",
-                    description: "10x booking",
-                  ),
-                  FieldCard(
-                    imageUrl: "assets/image_futsal2.png",
-                    name: "Champion Futsal",
-                    description: "2x booking",
-                  ),
-                  FieldCard(
-                    imageUrl: "assets/image_futsal3.png",
-                    name: "Lucky Futsal",
-                    description: "4x booking",
-                  ),
-                ],
+                children: dataLapangan.map((LapanganModel lapangan) {
+                  return FieldCard(lapangan: lapangan);
+                }).toList(),
               ),
             ),
             // Note: Section lapangan terdekat
@@ -174,24 +182,9 @@ class HomePage extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               padding: EdgeInsets.only(bottom: 24),
               child: Row(
-                children: [
-                  SizedBox(width: defaultMargin),
-                  FieldCard(
-                    imageUrl: "assets/image_futsal2.png",
-                    name: "Centro Futsal",
-                    description: "1.5 Km",
-                  ),
-                  FieldCard(
-                    imageUrl: "assets/image_futsal3.png",
-                    name: "Lucky Futsal",
-                    description: "2 Km",
-                  ),
-                  FieldCard(
-                    imageUrl: "assets/image_futsal1.png",
-                    name: "Campion Futsal",
-                    description: "2.2 Km",
-                  ),
-                ],
+                children: dataLapangan.map((LapanganModel lapangan) {
+                  return FieldCard(lapangan: lapangan);
+                }).toList(),
               ),
             ),
           ],
@@ -202,16 +195,35 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Color(0xFFFAFAFA),
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              topBar(),
-              searchSection(),
-              contentSection(),
-              SizedBox(height: 60),
-            ],
-          ),
+        child: BlocConsumer<LapanganCubit, LapanganState>(
+          listener: (context, state) {
+            if (state is LapanganFailed) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  backgroundColor: kGreenLightColor,
+                  content: Text(state.error),
+                ),
+              );
+            }
+          },
+          builder: (context, state) {
+            if (state is LapanganSuccess) {
+              return SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    topBar(),
+                    searchSection(),
+                    contentSection(state.dataLapangan),
+                    SizedBox(height: 60),
+                  ],
+                ),
+              );
+            }
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          },
         ),
       ),
     );

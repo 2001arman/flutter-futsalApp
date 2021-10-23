@@ -1,5 +1,6 @@
 import 'package:demo_futsalapp/constanst.dart';
 import 'package:demo_futsalapp/cubit/auth_cubit.dart';
+import 'package:demo_futsalapp/cubit/page_cubit.dart';
 import 'package:demo_futsalapp/widgets/custom_text_form_field.dart';
 import 'package:demo_futsalapp/widgets/my_button.dart';
 import 'package:flutter/material.dart';
@@ -60,6 +61,7 @@ class RegisterPage extends StatelessWidget {
             BlocConsumer<AuthCubit, AuthState>(
               listener: (context, state) {
                 if (state is AuthSuccess) {
+                  context.read<PageCubit>().setPage(0);
                   Navigator.pushNamedAndRemoveUntil(
                       context, 'main-page', (route) => false);
                 } else if (state is AuthFailed) {

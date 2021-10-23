@@ -1,26 +1,31 @@
 import 'package:demo_futsalapp/constanst.dart';
+import 'package:demo_futsalapp/models/lapangan_model.dart';
+import 'package:demo_futsalapp/pages/details_page.dart';
 import 'package:flutter/material.dart';
 
 class FieldCard extends StatelessWidget {
-  const FieldCard(
-      {Key? key,
-      required this.imageUrl,
-      required this.name,
-      required this.description})
-      : super(key: key);
+  const FieldCard({
+    Key? key,
+    required this.lapangan,
+  }) : super(key: key);
 
-  final String imageUrl, name, description;
+  final LapanganModel lapangan;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, 'details-page');
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DetailsPage(lapangan: lapangan),
+          ),
+        );
       },
       child: Container(
         width: 141,
         height: 170,
-        margin: EdgeInsets.only(right: 16),
+        margin: EdgeInsets.only(left: defaultMargin),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           color: Colors.white,
@@ -41,7 +46,7 @@ class FieldCard extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 image: DecorationImage(
-                  image: AssetImage(imageUrl),
+                  image: NetworkImage(lapangan.imageUrl),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -53,7 +58,7 @@ class FieldCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      name,
+                      lapangan.nama,
                       style: blackTextStyle.copyWith(
                         fontSize: 10,
                         fontWeight: semiBold,
@@ -61,7 +66,7 @@ class FieldCard extends StatelessWidget {
                     ),
                     SizedBox(height: 4),
                     Text(
-                      description,
+                      lapangan.deskripsi,
                       style: lightTextStyle.copyWith(
                         fontWeight: light,
                         fontSize: 10,

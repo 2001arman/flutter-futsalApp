@@ -1,5 +1,7 @@
 import 'package:demo_futsalapp/constanst.dart';
 import 'package:demo_futsalapp/cubit/field_cubit.dart';
+import 'package:demo_futsalapp/models/lapangan_model.dart';
+import 'package:demo_futsalapp/pages/checkout_page.dart';
 import 'package:demo_futsalapp/widgets/container_icon.dart';
 import 'package:demo_futsalapp/widgets/field_item.dart';
 import 'package:demo_futsalapp/widgets/my_button.dart';
@@ -7,7 +9,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FieldPage extends StatelessWidget {
-  const FieldPage({Key? key}) : super(key: key);
+  const FieldPage(this.lapangan, {Key? key}) : super(key: key);
+
+  final LapanganModel lapangan;
 
   @override
   Widget build(BuildContext context) {
@@ -130,7 +134,7 @@ class FieldPage extends StatelessWidget {
     Widget bottomSection() {
       return BlocBuilder<FieldCubit, int>(
         builder: (context, state) {
-          int lapangan = context.read<FieldCubit>().state;
+          int nomorLapangan = context.read<FieldCubit>().state;
           return Container(
             margin:
                 EdgeInsets.symmetric(horizontal: defaultMargin, vertical: 16),
@@ -148,7 +152,7 @@ class FieldPage extends StatelessWidget {
                     ),
                     SizedBox(height: 8),
                     Text(
-                      "Lapangan $lapangan",
+                      "Lapangan $nomorLapangan",
                       style: blackTextStyle.copyWith(
                         fontSize: 14,
                         fontWeight: semiBold,
@@ -158,7 +162,15 @@ class FieldPage extends StatelessWidget {
                 ),
                 MyButton(
                   onTap: () {
-                    Navigator.pushNamed(context, 'checkout-page');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CheckoutPage(
+                          lapangan: lapangan,
+                          nomor: nomorLapangan,
+                        ),
+                      ),
+                    );
                   },
                   width: 154,
                   height: 45,

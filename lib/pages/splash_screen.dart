@@ -1,8 +1,10 @@
 import 'dart:async';
 
 import 'package:demo_futsalapp/constanst.dart';
+import 'package:demo_futsalapp/cubit/auth_cubit.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -21,6 +23,8 @@ class _SplashScreenState extends State<SplashScreen> {
         if (user == null) {
           Navigator.pushReplacementNamed(context, 'login-page');
         } else {
+          print(user.email);
+          context.read<AuthCubit>().getCurrentUser(user.uid);
           Navigator.pushNamedAndRemoveUntil(
               context, 'main-page', (route) => false);
         }

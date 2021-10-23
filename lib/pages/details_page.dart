@@ -1,4 +1,6 @@
 import 'package:demo_futsalapp/constanst.dart';
+import 'package:demo_futsalapp/models/lapangan_model.dart';
+import 'package:demo_futsalapp/pages/field_page.dart';
 import 'package:demo_futsalapp/widgets/container_galeri.dart';
 import 'package:demo_futsalapp/widgets/container_icon.dart';
 import 'package:demo_futsalapp/widgets/description_text.dart';
@@ -6,9 +8,12 @@ import 'package:demo_futsalapp/widgets/my_button.dart';
 import 'package:demo_futsalapp/widgets/small_container.dart';
 import 'package:demo_futsalapp/widgets/small_icon.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class DetailsPage extends StatelessWidget {
-  const DetailsPage({Key? key}) : super(key: key);
+  const DetailsPage({Key? key, required this.lapangan}) : super(key: key);
+
+  final LapanganModel lapangan;
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +50,7 @@ class DetailsPage extends StatelessWidget {
         height: 374,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/image_futsal1.png"),
+            image: NetworkImage(lapangan.imageUrl),
             fit: BoxFit.cover,
           ),
           borderRadius: BorderRadius.only(
@@ -76,7 +81,7 @@ class DetailsPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Centro Futsal",
+                      lapangan.nama,
                       style: blackTextStyle.copyWith(
                         fontSize: 18,
                         fontWeight: semiBold,
@@ -104,7 +109,7 @@ class DetailsPage extends StatelessWidget {
                     SmallIcon(imageUrl: "assets/icon_star.png"),
                     SizedBox(width: 3),
                     Text(
-                      "4.5",
+                      "${lapangan.rating}",
                       style: blackTextStyle.copyWith(
                         fontSize: 10,
                         fontWeight: medium,
@@ -140,11 +145,17 @@ class DetailsPage extends StatelessWidget {
                   ),
                   DescriptionText(
                     title: "Harga/jam",
-                    value: "Rp. 150.000",
+                    value: NumberFormat.currency(
+                      locale: 'id',
+                      symbol: 'Rp. ',
+                      decimalDigits: 0,
+                    ).format(
+                      lapangan.harga,
+                    ),
                   ),
                   DescriptionText(
                     title: "Jenis lapangan",
-                    value: "Rumput",
+                    value: lapangan.jenis,
                   ),
                 ],
               ),
@@ -199,7 +210,14 @@ class DetailsPage extends StatelessWidget {
                 galerySection(),
                 MyButton(
                   onTap: () {
-                    Navigator.pushNamed(context, 'field-page');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => FieldPage(
+                          lapangan,
+                        ),
+                      ),
+                    );
                   },
                   height: 45,
                   width: double.infinity,

@@ -1,11 +1,19 @@
 import 'package:demo_futsalapp/constanst.dart';
+import 'package:demo_futsalapp/cubit/auth_cubit.dart';
+import 'package:demo_futsalapp/models/lapangan_model.dart';
 import 'package:demo_futsalapp/widgets/container_icon.dart';
 import 'package:demo_futsalapp/widgets/detail_item.dart';
 import 'package:demo_futsalapp/widgets/my_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 class CheckoutPage extends StatelessWidget {
-  const CheckoutPage({Key? key}) : super(key: key);
+  const CheckoutPage({Key? key, required this.lapangan, required this.nomor})
+      : super(key: key);
+
+  final LapanganModel lapangan;
+  final int nomor;
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +54,7 @@ class CheckoutPage extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(18),
                 image: DecorationImage(
-                  image: AssetImage("assets/image_futsal1.png"),
+                  image: NetworkImage(lapangan.imageUrl),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -56,7 +64,7 @@ class CheckoutPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Centro Futsal",
+                    lapangan.nama,
                     style: blackTextStyle.copyWith(
                       fontSize: 18,
                       fontWeight: medium,
@@ -74,7 +82,7 @@ class CheckoutPage extends StatelessWidget {
             ),
             ContainerIcon(imageUrl: "assets/icon_star.png"),
             Text(
-              "4.8",
+              "${lapangan.rating}",
               style: blackTextStyle.copyWith(
                 fontWeight: medium,
               ),
@@ -97,9 +105,9 @@ class CheckoutPage extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 10),
-              DetailItem(title: "Nomor", value: "3"),
-              DetailItem(title: "Jenis", value: "Rumput"),
-              DetailItem(title: "Harga", value: "Rp. 150.000"),
+              DetailItem(title: "Nomor", value: "$nomor"),
+              DetailItem(title: "Jenis", value: lapangan.jenis),
+              DetailItem(title: "Harga", value: "Rp. ${lapangan.harga}"),
             ],
           ),
         );
@@ -119,56 +127,71 @@ class CheckoutPage extends StatelessWidget {
     }
 
     Widget saldo() {
-      return Container(
-        margin: EdgeInsets.symmetric(vertical: 30, horizontal: defaultMargin),
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Detail Pembayaran",
-              style: blackTextStyle.copyWith(
-                fontSize: 16,
-                fontWeight: semiBold,
-              ),
-            ),
-            SizedBox(height: 16),
-            Row(
-              children: [
-                Container(
-                  width: 70,
-                  height: 70,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage("assets/logo.png"),
+      return BlocBuilder<AuthCubit, AuthState>(
+        builder: (context, state) {
+          if (state is AuthSuccess) {
+            return Container(
+              margin:
+                  EdgeInsets.symmetric(vertical: 30, horizontal: defaultMargin),
+              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Detail Pembayaran",
+                    style: blackTextStyle.copyWith(
+                      fontSize: 16,
+                      fontWeight: semiBold,
                     ),
                   ),
-                ),
-                Spacer(),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "IDR 80.400.000",
-                      style: blackTextStyle.copyWith(
-                        fontSize: 18,
-                        fontWeight: medium,
+                  SizedBox(height: 16),
+                  Row(
+                    children: [
+                      Container(
+                        width: 70,
+                        height: 70,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage("assets/logo.png"),
+                          ),
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 5),
-                    Text(
-                      "Current Balance",
-                      style: lightTextStyle.copyWith(
-                        fontWeight: light,
+                      Spacer(),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            NumberFormat.currency(
+                              locale: 'id',
+                              symbol: 'Rp. ',
+                              decimalDigits: 0,
+                            ).format(
+                              state.user.saldo,
+                            ),
+                            style: blackTextStyle.copyWith(
+                              fontSize: 18,
+                              fontWeight: medium,
+                            ),
+                          ),
+                          SizedBox(height: 5),
+                          Text(
+                            "Current Balance",
+                            style: lightTextStyle.copyWith(
+                              fontWeight: light,
+                            ),
+                          )
+                        ],
                       ),
-                    )
-                  ],
-                ),
-                Spacer(),
-              ],
-            ),
-          ],
-        ),
+                      Spacer(),
+                    ],
+                  ),
+                ],
+              ),
+            );
+          } else {
+            return SizedBox();
+          }
+        },
       );
     }
 

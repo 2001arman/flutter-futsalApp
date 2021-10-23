@@ -1,5 +1,6 @@
 import 'package:demo_futsalapp/cubit/auth_cubit.dart';
 import 'package:demo_futsalapp/cubit/field_cubit.dart';
+import 'package:demo_futsalapp/cubit/lapangan_cubit.dart';
 import 'package:demo_futsalapp/cubit/page_cubit.dart';
 import 'package:demo_futsalapp/pages/checkout_page.dart';
 import 'package:demo_futsalapp/pages/details_page.dart';
@@ -35,6 +36,9 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => AuthCubit(),
         ),
+        BlocProvider(
+          create: (context) => LapanganCubit(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -43,9 +47,6 @@ class MyApp extends StatelessWidget {
           'register-page': (context) => RegisterPage(),
           'login-page': (context) => LoginPage(),
           'main-page': (context) => MainPage(),
-          'details-page': (context) => DetailsPage(),
-          'field-page': (context) => FieldPage(),
-          'checkout-page': (context) => CheckoutPage(),
           'success-page': (context) => SuccessPage(),
         },
         // home: HomePage(),
