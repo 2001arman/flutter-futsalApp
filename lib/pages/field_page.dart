@@ -1,6 +1,7 @@
 import 'package:demo_futsalapp/constanst.dart';
 import 'package:demo_futsalapp/cubit/field_cubit.dart';
 import 'package:demo_futsalapp/models/lapangan_model.dart';
+import 'package:demo_futsalapp/models/transaksi_model.dart';
 import 'package:demo_futsalapp/pages/checkout_page.dart';
 import 'package:demo_futsalapp/widgets/container_icon.dart';
 import 'package:demo_futsalapp/widgets/field_item.dart';
@@ -166,8 +167,10 @@ class FieldPage extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (context) => CheckoutPage(
-                          lapangan: lapangan,
-                          nomor: nomorLapangan,
+                          transaksi: TransaksiModel(
+                            lapangan: lapangan,
+                            nomor: nomorLapangan,
+                          ),
                         ),
                       ),
                     );

@@ -30,6 +30,16 @@ class LapanganModel extends Equatable {
         harga: json['harga'],
       );
 
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'nama': nama,
+        'imageUrl': imageUrl,
+        'jenis': jenis,
+        'deskripsi': deskripsi,
+        'rating': rating,
+        'harga': harga,
+      };
+
   @override
   List<Object?> get props => [id, nama, imageUrl, jenis, rating, harga];
 }

@@ -1,6 +1,8 @@
 import 'package:demo_futsalapp/constanst.dart';
 import 'package:demo_futsalapp/cubit/auth_cubit.dart';
-import 'package:demo_futsalapp/models/lapangan_model.dart';
+import 'package:demo_futsalapp/cubit/page_cubit.dart';
+import 'package:demo_futsalapp/cubit/transaksi_cubit.dart';
+import 'package:demo_futsalapp/models/transaksi_model.dart';
 import 'package:demo_futsalapp/widgets/container_icon.dart';
 import 'package:demo_futsalapp/widgets/detail_item.dart';
 import 'package:demo_futsalapp/widgets/my_button.dart';
@@ -9,11 +11,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 class CheckoutPage extends StatelessWidget {
-  const CheckoutPage({Key? key, required this.lapangan, required this.nomor})
-      : super(key: key);
+  const CheckoutPage({
+    Key? key,
+    required this.transaksi,
+  }) : super(key: key);
 
-  final LapanganModel lapangan;
-  final int nomor;
+  final TransaksiModel transaksi;
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +57,7 @@ class CheckoutPage extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(18),
                 image: DecorationImage(
-                  image: NetworkImage(lapangan.imageUrl),
+                  image: NetworkImage(transaksi.lapangan.imageUrl),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -64,7 +67,7 @@ class CheckoutPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    lapangan.nama,
+                    transaksi.lapangan.nama,
                     style: blackTextStyle.copyWith(
                       fontSize: 18,
                       fontWeight: medium,
@@ -82,7 +85,7 @@ class CheckoutPage extends StatelessWidget {
             ),
             ContainerIcon(imageUrl: "assets/icon_star.png"),
             Text(
-              "${lapangan.rating}",
+              "${transaksi.lapangan.rating}",
               style: blackTextStyle.copyWith(
                 fontWeight: medium,
               ),
@@ -105,9 +108,10 @@ class CheckoutPage extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 10),
-              DetailItem(title: "Nomor", value: "$nomor"),
-              DetailItem(title: "Jenis", value: lapangan.jenis),
-              DetailItem(title: "Harga", value: "Rp. ${lapangan.harga}"),
+              DetailItem(title: "Nomor", value: "${transaksi.nomor}"),
+              DetailItem(title: "Jenis", value: transaksi.lapangan.jenis),
+              DetailItem(
+                  title: "Harga", value: "Rp. ${transaksi.lapangan.harga}"),
             ],
           ),
         );
@@ -203,14 +207,37 @@ class CheckoutPage extends StatelessWidget {
             topBarSection(),
             detailsSection(),
             saldo(),
-            MyButton(
-              onTap: () {
-                Navigator.pushNamed(context, 'success-page');
+            BlocConsumer<TransaksiCubit, TransaksiState>(
+              listener: (context, state) {
+                if (state is TransaksiSuccess) {
+                  context.read<PageCubit>().setPage(1);
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, 'success-page', (route) => false);
+                } else if (state is TransaksiFailed) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      backgroundColor: kGreenLightColor,
+                      content: Text(state.error),
+                    ),
+                  );
+                }
               },
-              margin: EdgeInsets.symmetric(horizontal: defaultMargin),
-              width: double.infinity,
-              height: 55,
-              text: "Bayar Sekarang",
+              builder: (context, state) {
+                if (state is TransaksiLoading) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                return MyButton(
+                  onTap: () {
+                    context.read<TransaksiCubit>().buatTransaksi(transaksi);
+                  },
+                  margin: EdgeInsets.symmetric(horizontal: defaultMargin),
+                  width: double.infinity,
+                  height: 55,
+                  text: "Bayar Sekarang",
+                );
+              },
             ),
           ],
         ),
