@@ -14,5 +14,5 @@ This project is also for my youtube content.
     
 ## Screenshots
 
-![App Screenshot](asssets/dokumentasi.png)
+![App Screenshot](https://github.com/2001arman/flutter-futsalApp/blob/master/assets/dokumentasi.png)
 
